@@ -1,6 +1,15 @@
+// 노드 내장 모듈
+// 노드는 운영체제 정보에도 접근할 수 있고, 클라이언트가 요청한 주소에 대한 정보도 가져올 수 있다.
+
+// 2. path 모듈
+// 폴더와 파일의 경로를 쉽게 조작하도록 도와주는 모듈
+// path 모듈이 필요한 이유 중 하나는 os별로 경로 구분자가 다르기 때문이다.
+// Windows : \로 구분
+// POSIX(macOS, 리눅스) : /로 구분
+
 const path = require('path');
 
-const string = __filename;
+const string = __filename; //현재 파일 경로
 
 console.log('path.sep: ', path.sep); // 경로의 구분자, windows는 \
 console.log('path.delimiter: ', path.delimiter); // 환경 변수의 구분자, windows는 ;(세미콜론)
