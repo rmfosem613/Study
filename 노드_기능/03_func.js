@@ -2,7 +2,7 @@
 // js나 json 같은 확장자를 생략 가능
 // const {odd, even}은 es2015+ 문법이다.
 // var.js의 module.exports에 담겨 있던 객체를 불러와 func.js에서 사용하는 모습이다.
-const { odd, even } = require('./var');
+const { odd, even } = require('./02_var');
 
 // var.js에서 변수를 불러온 뒤, 숫자의 홀짝을 판별하는 함수를 선언
 function chekOddOrEven(num) {
