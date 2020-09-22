@@ -37,7 +37,7 @@ console.log('복호화: ', result2);
 // [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
 // 안 졸릴 때 해결해야겠다.
 
-
+// 아... 사라진 기능이다.
 
 
 
