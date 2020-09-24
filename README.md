@@ -1,2 +1,3 @@
-# Study_Node
-Study 'Node.js Textbook'
+# Study
+
+1. Study 'Node.js Textbook'
