@@ -9,11 +9,22 @@
 
 const fs = require('fs');
 
+// fs 모듈을 불러온 뒤 읽은 파일의 경로를 지정한다.
+// 유의할 점은 콜백 함수도 readFile 메서드의 인자로 같이 넣어준다는 것이다.
+// 이 콜백 함수의 매개변수로 에러 또는 데이터를 받는다.
+// 파일을 읽다가 문제가 있다면 에러가 발생할 것이고,
+// 정상적으로 읽었다면 콘솔에 결과가 나올 것이다.
 fs.readFile('./readme.txt', (err, data) => {
 	if(err) {
 		throw err;
 	}
+
+	// Buffer가 출력된다.
+	// readFile의 결과물은 Buffer라는 형식으로 제공된다.
+	// 버퍼는 메모리의 데이터이다.
 	console.log(data);
+	
+	// txt 파일 안에 있는 문장이 출력된다.
 	console.log(data.toString());
 });
 
