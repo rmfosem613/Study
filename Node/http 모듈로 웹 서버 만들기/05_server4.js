@@ -49,10 +49,7 @@ http.createServer((req, res) => {
 
 		res.writeHead(302, {
 			Location: '/',
-			'Set-Cookie' : `name=${encodeURIComponent(name)};
-			Expires=${expires.toGMTString()};
-			HttpOnly;
-			Path=/`,
+			'Set-Cookie' : `name=${encodeURIComponent(name)}; Expires=${expires.toGMTString()}; HttpOnly; Path=/`,
 		});
 		res.end();
 	} else if(cookies.name) {
