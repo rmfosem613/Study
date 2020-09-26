@@ -12,8 +12,8 @@ http.createServer((req, res) => {
 		}
 		res.end(data);
 	});
-}).listen(8080, () => {
-	console.log('8080번 포트에서 서버 대기 중입니다!');
+}).listen(8081, () => {
+	console.log('8081번 포트에서 서버 대기 중입니다!');
 });
 
 // HTML 파일을 읽어와 클라이언트로 전송하는 데 성공했다.
