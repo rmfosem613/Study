@@ -1,12 +1,14 @@
 const http = require('http');
-const fs = require('fs');
+const fs = require('fs').promises;
 const url = require('url');
 const qs = require('querystring');
 
+// 쿠키는 mycookie=test같은 문자열이다.
+// 이 함수를 거치면 {mycookie: 'test'}가 된다.
+// parseCookies 함수가 문자열을 개개체로 바꿔준다.
 const parseCookies = (cookie = '') => 
 	cookie.split(';')
 		.map(v => v.split('='))
-		.map(([k, ...vs]) => [k, vs.join('=')])
 		.reduce((acc, [k,v]) => {
 			acc[k.trim()] = decodeURIComponent(v);
 			return acc;
@@ -14,26 +16,18 @@ const parseCookies = (cookie = '') =>
 
 // 주소가 /login과 /로 시작하는 것까지 두개이기 때문에 주소별로 분기 처리를 했다.
 
-// 1. 주소가 /login으로 시작할 경우에는 url과 querystring 모듈로 각각 주소와 주소에 딸려오는 query를 분석한다.
-// 그리고 쿠키의 만료 시간도 지금으로부터 5분 뒤로 설정하였다.
-// 이제 302 응답 코드, 리다이렉트 주소와 함께 쿠키를 헤더에 넣는다.
-// 브라우저는 이 응답 코드를 보고 페이지를 해당 주소로 리다이렉트한다.
-// 헤더에는 한글을 설정할 수 없으므로 name 변수를 encodeURIComponent 메서드로 인코딩했다.
-
-// 2. 그 외의 경우 (/로 접송했을 때 등),
-// 먼저 쿠키가 있는지 없는지를 확인한다.
-// 쿠키가 없다면 로그인할 수 있는 페이지를 보낸다.
-// 처음 방문한 경우엔 쿠키가 없으므로 server4.html이 전송된다.
-// 쿠키가 있다면 로그인한 상태로 간주하여 인사말을 보낸다,
-// res.end 메서드에 한글이 들어가면 인코딩 문제가 발생하므로
-// res.writeHead에 Content-Type을 text/html; charset=utf-8로 설정해 인코딩을 명시하였다.
-
-http.createServer((req, res) => {
+http.createServer(async (req, res) => {
 	const cookies = parseCookies(req.headers.cookie);
+
+	// 1. 주소가 /login으로 시작하는 경우
+	// url과 querystring 모듈로 각각 주소와 주소에 딸려 오는 query를 분석한다.
+	// 302 응답 코드, 리다이렉트 주소와 함꼐 쿠키를 헤더에 넣는다.
+	// 헤더에는 한글을 설정할 수 없으므로 name 변수를 encodeURIComponent 메서드로 인코딩했다.
 	if(req.url.startsWith('/login')) {
 		const {query} = url.parse(req.url);
 		const {name} = qs.parse(query);
 		const expires = new Date();
+		// 쿠키 유효 시간을 현재 시간 + 5 분으로 설정
 		expires.setMinutes(expires.getMinutes() + 5);
 
 		// 쿠키를 설정할 때 만료 기간(Expires)과 HttpOnly, Path 같은 옵션을 부여했다.
@@ -52,19 +46,27 @@ http.createServer((req, res) => {
 			'Set-Cookie' : `name=${encodeURIComponent(name)}; Expires=${expires.toGMTString()}; HttpOnly; Path=/`,
 		});
 		res.end();
+
+		// name이라는 쿠키가 있는 경우
+		// 그 외의 경우(/로 접속했을 때 등), 먼저 쿠키가 있는지 없는지를 확인한다.
+		// 쿠키가 없다면 로그인할 수 있는 페이지를 보낸다.
+		// 처음 방문한 경우에는 쿠키가 없으므로 06_cookie2.html이 전송된다.
+		// 쿠키가 있다면 로그인한 상태로 간주하여 인사말을 보낸다.
 	} else if(cookies.name) {
-		res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8'});
+		res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8'});
 		res.end(`${cookies.name}님 안녕하세요`);
 	} else {
-		fs.readFile('./05_server4.html', (err, data) => {
-			if (err) {
-				throw err;
-			}
+		try {
+			const data = await fs.readFile('./06_cookie2.html');
+			res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8'});
 			res.end(data);
-		});
+		} catch (err) {
+			res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
+			res.end(err.message);
+		}
 	}
-}).listen(8083, () => {
-	console.log('8083번 포트에서 서버 대기 중입니다!');
+}).listen(8084, () => {
+	console.log('8084번 포트에서 서버 대기 중입니다!');
 });
 
 // 원하는 대로 동작하기는 하지만 이 방식은 상당히 위험하다.
