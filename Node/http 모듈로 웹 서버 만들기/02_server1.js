@@ -12,21 +12,20 @@
 
 const http = require('http');
 
-const server = http.createServer((req, res) => {
-	//여기에 어떻게 응답할지 적어준다.
-	
-	res.write('<h1>Hello Node!</h1>'); // 클라이언트로 보낼 데이터
-	res.end('<p>Hello Server!</p>'); // 클라이언트로 보내고 응답을 종료
-});
-server.listen(8080);
+http.createServer((req, res) => {
 
-server.on('listening', () => {
-	console.log('8080 포트에서 서버 대기 중입니다!');
-});
+	// res.writeHead는 응답에 대한 정보를 기록하는 메서드이다.
+	// 첫 번째 인수로 성공적인 요청임을 의미하는 200을,
+	// 두 번재 인수로 응답에 대한 정보를 보내는데 콘텐츠의 형식이 HTML임을 알리고 있다.
+	// 또한 한글 표시를 위해 charset을 utf-8로 지정했다.
+	// 이 정보가 기록되는 부분을 헤더라고 부른다.
+	res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+	res.write('<h1>Hello Node!</h1>');
+	res.end('<p>Hello Server!</p>');
 
-// error 이벤트 리스너
-server.on('error', (error) => {
-	console.error(error);
+	// listen 메서드에 콜백 함수를 넣는 방법이다.
+}).listen(8080, () => { // 서버 연결
+	console.log('8080번 포트에서 대기 중입니다!');
 });
 
 
