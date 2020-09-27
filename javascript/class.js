@@ -1,4 +1,4 @@
-'use strinct';
+'use strict';
 // Object-oriendted programming
 // class: template
 // Object: instance of a class
