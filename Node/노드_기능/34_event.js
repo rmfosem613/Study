@@ -39,7 +39,7 @@ myEvent.once('event3', () => {
 });
 
 myEvent.emit('event3');
-myEvent.emit('event3');
+myEvent.emit('event3'); // 실행 안 됨
 
 myEvent.on('event4', () => {
 	console.log('이벤트 4');
@@ -48,7 +48,7 @@ myEvent.on('event4', () => {
 // removeAllListeners(이벤트명) : 이벤트에 연결된 모든 이벤트 리스너를 제거한다.
 // event4가 호출되기 전에 리스너를 제거했으므로 event4의 콜백은 호출되지 않는다.
 myEvent.removeAllListeners('event4');
-myEvent.emit('event4');
+myEvent.emit('event4'); // 실행 안 됨
 
 const listener = () => {
 	console.log('이벤트 5');
@@ -59,7 +59,7 @@ myEvent.on('event5', listener);
 // removeListener(이벤트명, 리스너) : 이벤트에 연결된 리스너를 하나씩 제거한다.
 // event5의 콜백도 호출되지 않는다. 
 myEvent.removeListener('event5', listener);
-myEvent.emit('event5');
+myEvent.emit('event5'); // 실행 안 됨
 
 // listenerCount(이벤트명) : 현재 리스너가 몇 개 연결되어 있는지 확인한다.
 console.log(myEvent.listenerCount('event2'));
