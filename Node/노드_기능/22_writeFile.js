@@ -6,24 +6,19 @@
 
 // 파일을 만들어보는 코드이다.
 
-const fs = require('fs');
+const fs = require('fs').promises;
 
 
 // writeFile() 메서드에 생성될 파일의 경로와 내용을 입력해준다.
 // 도중에 에러가 발생하지 않았다면 같은 폴더 내에 writeme.txt가 생성되었을 것이다.
 // 직접 열어봐도 되고, readFile을 통해 파일을 읽어볼 수도 있다.
-fs.writeFile('./writeme.txt', '글이 입력됩니다.', (err) => {
-	if(err) {
-		throw err;
-	}
-	fs.readFile('./writeme.txt', (err, data) => {
-		if(err) {
-			throw err;
-		}
-		console.log(data.toString());
-	});
+fs.writeFile('./writeme.txt', '글이 입력됩니다.').then(() => {
+	return fs.readFile('./writeme.txt');
+}).then((data) => {
+	console.log(data.toString());
+}).catch((err) => {
+	console.error(err);
 });
-
 
 
 
