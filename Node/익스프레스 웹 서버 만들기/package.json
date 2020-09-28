@@ -4,10 +4,6 @@
   "description": "익스프레스를 배우자",
   "main": "app.js",
   "scripts": {
-    // nodemon app을 하면 app.js를 nodemon으로 실행한다는 뜻이다.
-    // 서버 코드에 수정 사항이 생길 때마다 매번 서버를 재시작하기는 귀찮으므로 nodemon 모듈로 서버를 자동으로 재시작한다.
-    // nodemon은 개발용으로만 사용하는 것을 권장한다.
-    // 배포 후에는 서버 코드가 빈번하게 변경될 일이 없으므로 nodemon을 사용하지 않아도 된다.
     "start": "nodemon app"
   },
   "author": "migyeong",
