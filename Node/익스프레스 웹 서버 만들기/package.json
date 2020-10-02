@@ -2,9 +2,9 @@
   "name": "learn-express",
   "version": "1.0.0",
   "description": "익스프레스를 배우자",
-  "main": "02_middleware.js",
+  "main": "06_nunjucks.js",
   "scripts": {
-    "start": "nodemon 02_middleware"
+    "start": "nodemon 06_nunjucks"
   },
   "author": "migyeong",
   "license": "ISC",
@@ -13,7 +13,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nunjucks": "^3.2.2",
+    "pug": "^3.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
