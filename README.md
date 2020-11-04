@@ -15,7 +15,7 @@
 - 
 
 ## 2. Study Node.js
-> 출처 : Node.js 교과서 2판 (길벗)
+> 출처 : Node.js 교과서 2판 (https://github.com/zerocho/nodejs-book)
 
 - 노드 기능
 
